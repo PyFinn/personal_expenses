@@ -41,7 +41,7 @@ class MyHomePage extends StatelessWidget {
         children: <Widget>[
           Card(
             color: Colors.blue,
-            child: Center(child: Text('CHART!')),
+            child: Center(child: Text('CHART')),
             elevation: 5,
           ),
           Column(
