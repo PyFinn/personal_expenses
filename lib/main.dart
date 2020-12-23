@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:personal_expenses/transaction.dart';
+import 'package:intl/intl.dart';
 
 void main() {
   runApp(MyApp());
@@ -50,10 +51,32 @@ class MyHomePage extends StatelessWidget {
                 child: Row(
                   children: [
                     Container(
-                      child: Text(e.amount.toString()),
+                      child: Text(
+                        '\$${e.amount}',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            color: Colors.purple),
+                      ),
+                      margin:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.purple, width: 2)),
+                      padding: EdgeInsets.all(10),
                     ),
                     Column(
-                      children: [Text(e.title), Text(e.date.toString())],
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          e.title,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 15),
+                        ),
+                        Text(
+                          DateFormat.yMMMd().format(e.date),
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                      ],
                     )
                   ],
                 ),
