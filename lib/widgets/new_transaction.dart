@@ -5,6 +5,17 @@ class NewTransaction extends StatelessWidget {
 
   NewTransaction(this.addNewTransaction);
 
+  void submitTransaction() {
+    try {
+      double.parse(amountInput);
+    } catch (Error){
+      return;
+    }
+    if (titleInput != null && amountInput != null) {
+      addNewTransaction(titleInput, amountInput);
+    }
+  }
+
 
   String titleInput;
   String amountInput;
@@ -22,16 +33,19 @@ class NewTransaction extends StatelessWidget {
               onChanged: (value) {
                 titleInput = value;
               },
+              onSubmitted: (_) => submitTransaction(),
             ),
             TextField(
               decoration: InputDecoration(labelText: 'Amount'),
+              keyboardType: TextInputType.numberWithOptions(signed: true),
               onChanged: (value) {
                 amountInput = value;
               },
+              onSubmitted: (_) => submitTransaction(),
             ),
             FlatButton(
               onPressed: () {
-                addNewTransaction(titleInput, amountInput);
+                submitTransaction();
               },
               child: Text('Add Transaction'),
               textColor: Colors.purple,
