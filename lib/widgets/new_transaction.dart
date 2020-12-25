@@ -5,7 +5,7 @@ class NewTransaction extends StatelessWidget {
 
   NewTransaction(this.addNewTransaction);
 
-  void submitTransaction() {
+  void submitTransaction(BuildContext context) {
     try {
       double.parse(amountInput);
     } catch (Error){
@@ -14,6 +14,8 @@ class NewTransaction extends StatelessWidget {
     if (titleInput != null && amountInput != null) {
       addNewTransaction(titleInput, amountInput);
     }
+
+    Navigator.of(context).pop();
   }
 
 
@@ -33,7 +35,7 @@ class NewTransaction extends StatelessWidget {
               onChanged: (value) {
                 titleInput = value;
               },
-              onSubmitted: (_) => submitTransaction(),
+              onSubmitted: (_) => submitTransaction(context),
             ),
             TextField(
               decoration: InputDecoration(labelText: 'Amount'),
@@ -41,11 +43,11 @@ class NewTransaction extends StatelessWidget {
               onChanged: (value) {
                 amountInput = value;
               },
-              onSubmitted: (_) => submitTransaction(),
+              onSubmitted: (_) => submitTransaction(context),
             ),
             FlatButton(
               onPressed: () {
-                submitTransaction();
+                submitTransaction(context);
               },
               child: Text('Add Transaction'),
               textColor: Colors.purple,
