@@ -19,24 +19,24 @@ class _NewTransactionState extends State<NewTransaction> {
     } catch (Error) {
       return;
     }
-    if (titleInput != null && amountInput != null) {
-      widget.addNewTransaction(titleInput, amountInput);
+    if (titleInput != null && amountInput != null && _selectedDate != null) {
+      widget.addNewTransaction(DateTime.now().toString(), titleInput, amountInput, _selectedDate);
+      Navigator.of(context).pop();
     }
-
-    Navigator.of(context).pop();
   }
 
   void _presentDatePicker(BuildContext context) {
     showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(2019),
-        lastDate: DateTime.now()).then((pickedDate) {
-          if (pickedDate != null) {
-            setState(() {
-              _selectedDate = pickedDate;
-            });
-          }
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime(2019),
+            lastDate: DateTime.now())
+        .then((pickedDate) {
+      if (pickedDate != null) {
+        setState(() {
+          _selectedDate = pickedDate;
+        });
+      }
     });
   }
 
@@ -71,7 +71,10 @@ class _NewTransactionState extends State<NewTransaction> {
               height: 70,
               child: Row(
                 children: [
-                  Text(_selectedDate == null ? 'No Date Chosen!' : DateFormat.yMd().format(_selectedDate)),
+                  Expanded(
+                      child: Text(_selectedDate == null
+                          ? 'No Date Chosen!'
+                          : DateFormat.yMd().format(_selectedDate))),
                   FlatButton(
                     onPressed: () {
                       _presentDatePicker(context);
