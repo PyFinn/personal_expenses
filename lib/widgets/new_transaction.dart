@@ -1,25 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
-class NewTransaction extends StatelessWidget {
+class NewTransaction extends StatefulWidget {
   final Function addNewTransaction;
 
   NewTransaction(this.addNewTransaction);
 
+  @override
+  _NewTransactionState createState() => _NewTransactionState();
+}
+
+class _NewTransactionState extends State<NewTransaction> {
+  DateTime _selectedDate;
+
   void submitTransaction(BuildContext context) {
     try {
       double.parse(amountInput);
-    } catch (Error){
+    } catch (Error) {
       return;
     }
     if (titleInput != null && amountInput != null) {
-      addNewTransaction(titleInput, amountInput);
+      widget.addNewTransaction(titleInput, amountInput);
     }
 
     Navigator.of(context).pop();
   }
 
+  void _presentDatePicker(BuildContext context) {
+    showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2019),
+        lastDate: DateTime.now()).then((pickedDate) {
+          if (pickedDate != null) {
+            setState(() {
+              _selectedDate = pickedDate;
+            });
+          }
+    });
+  }
 
   String titleInput;
+
   String amountInput;
 
   @override
@@ -45,12 +67,31 @@ class NewTransaction extends StatelessWidget {
               },
               onSubmitted: (_) => submitTransaction(context),
             ),
-            FlatButton(
+            Container(
+              height: 70,
+              child: Row(
+                children: [
+                  Text(_selectedDate == null ? 'No Date Chosen!' : DateFormat.yMd().format(_selectedDate)),
+                  FlatButton(
+                    onPressed: () {
+                      _presentDatePicker(context);
+                    },
+                    child: Text(
+                      'Choose Date!',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    textColor: Theme.of(context).primaryColor,
+                  )
+                ],
+              ),
+            ),
+            RaisedButton(
               onPressed: () {
                 submitTransaction(context);
               },
               child: Text('Add Transaction'),
-              textColor: Colors.purple,
+              color: Theme.of(context).primaryColor,
+              textColor: Theme.of(context).buttonColor,
             )
           ],
         ),
