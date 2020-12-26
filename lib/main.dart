@@ -19,12 +19,17 @@ class MyApp extends StatelessWidget {
           visualDensity: VisualDensity.adaptivePlatformDensity,
           fontFamily: 'OpenSans',
           textTheme: ThemeData.light().textTheme.copyWith(
-            headline6: TextStyle(fontFamily: 'Quicksand', fontWeight: FontWeight.bold, fontSize: 18),
-            headline1: TextStyle(fontFamily: 'OpenSans', fontSize: 14)
-          ),
+              headline6: TextStyle(
+                  fontFamily: 'Quicksand',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18),
+              headline1: TextStyle(fontFamily: 'OpenSans', fontSize: 14)),
           appBarTheme: AppBarTheme(
               textTheme: ThemeData.light().textTheme.copyWith(
-                  headline6: TextStyle(fontFamily: 'OpenSans', fontSize: 20, fontWeight: FontWeight.bold)))),
+                  headline6: TextStyle(
+                      fontFamily: 'OpenSans',
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold)))),
       home: MyHomePage(),
     );
   }
@@ -46,7 +51,10 @@ class _MyHomePageState extends State<MyHomePage> {
   ];
 
   List<Transaction> get _recentTransactions {
-    return _transactions.where((element) => element.date.isAfter(DateTime.now().subtract(Duration(days: 7)))).toList();
+    return _transactions
+        .where((element) =>
+            element.date.isAfter(DateTime.now().subtract(Duration(days: 7))))
+        .toList();
   }
 
   void _addNewTransaction(String title, String amount) {
