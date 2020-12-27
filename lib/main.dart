@@ -44,11 +44,20 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _transactions = [
     Transaction(
-        id: DateTime.now().toString(), title: 'New Shoes', amount: 69.99, date: DateTime.now()),
+        id: DateTime.now().toString(),
+        title: 'New Shoes',
+        amount: 69.99,
+        date: DateTime.now()),
     Transaction(
-        id: DateTime.now().toString(), title: 'New Shirt', amount: 29.99, date: DateTime.now()),
+        id: DateTime.now().toString(),
+        title: 'New Shirt',
+        amount: 29.99,
+        date: DateTime.now()),
     Transaction(
-        id: DateTime.now().toString(), title: 'New Pants', amount: 89.99, date: DateTime.now())
+        id: DateTime.now().toString(),
+        title: 'New Pants',
+        amount: 89.99,
+        date: DateTime.now())
   ];
 
   List<Transaction> get _recentTransactions {
@@ -58,24 +67,22 @@ class _MyHomePageState extends State<MyHomePage> {
         .toList();
   }
 
-  void _addNewTransaction(String id, String title, String amount, DateTime date) {
+  void _addNewTransaction(
+      String id, String title, String amount, DateTime date) {
     setState(() {
       _transactions.add(Transaction(
-          id: id,
-          title: title,
-          amount: double.parse(amount),
-          date: date));
+          id: id, title: title, amount: double.parse(amount), date: date));
     });
   }
 
   void _deleteTransaction(String id) {
     Transaction index;
     for (Transaction t in _transactions) {
-      if(t.id == id){
+      if (t.id == id) {
         index = t;
       }
     }
-    if(index != null) {
+    if (index != null) {
       setState(() {
         _transactions.remove(index);
       });
@@ -96,21 +103,29 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final appBar = AppBar(title: Text('Personal Expenses'), actions: [
+      IconButton(
+          icon: Icon(Icons.add),
+          onPressed: () => _startAddNewTransaction(context))
+    ]);
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Personal Expenses'),
-        actions: [
-          IconButton(
-              icon: Icon(Icons.add),
-              onPressed: () => _startAddNewTransaction(context))
-        ],
-      ),
+      appBar: appBar,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Chart(_recentTransactions),
-            TransactionList(_transactions, _deleteTransaction)
+            Container(
+              child: Chart(_recentTransactions),
+              height: (MediaQuery.of(context).size.height -
+                      appBar.preferredSize.height - MediaQuery.of(context).padding.top) *
+                  0.3,
+            ),
+            Container(
+              child: TransactionList(_transactions, _deleteTransaction),
+              height: (MediaQuery.of(context).size.height -
+                      appBar.preferredSize.height - MediaQuery.of(context).padding.top) *
+                  0.7,
+            )
           ],
         ),
       ),
