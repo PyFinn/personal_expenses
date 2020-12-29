@@ -155,7 +155,10 @@ class _MyHomePageState extends State<MyHomePage> {
             if (isLandscape)
               Row(
                 children: [
-                  Text('Show Chart'),
+                  Text(
+                    'Show Chart',
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
                   Switch.adaptive(
                       activeColor: Theme.of(context).accentColor,
                       value: _showChart,
